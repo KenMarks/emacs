@@ -1,131 +1,30 @@
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(Linum-format "%7i ")
- '(ansi-color-faces-vector
-   [default bold shadow italic underline bold bold-italic bold])
- '(ansi-color-names-vector
-   ["#3F3F3F" "#CC9393" "#7F9F7F" "#F0DFAF" "#8CD0D3" "#DC8CC3" "#93E0E3" "#DCDCCC"])
- '(column-number-mode t)
- '(compilation-message-face (quote default))
- '(cua-global-mark-cursor-color "#2aa198")
- '(cua-normal-cursor-color "#839496")
- '(cua-overwrite-cursor-color "#b58900")
- '(cua-read-only-cursor-color "#859900")
- '(custom-enabled-themes nil)
- '(custom-safe-themes
-   (quote
-    ("c74e83f8aa4c78a121b52146eadb792c9facc5b1f02c917e3dbb454fca931223" "e97dbbb2b1c42b8588e16523824bc0cb3a21b91eefd6502879cf5baa1fa32e10" "20e359ef1818a838aff271a72f0f689f5551a27704bf1c9469a5c2657b417e6c" "bc40f613df8e0d8f31c5eb3380b61f587e1b5bc439212e03d4ea44b26b4f408a" "3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "b04425cc726711a6c91e8ebc20cf5a3927160681941e06bc7900a5a5bfe1a77f" "943bff6eada8e1796f8192a7124c1129d6ff9fbd1a0aed7b57ad2bf14201fdd4" default)))
- '(fci-rule-character-color "#202020")
- '(fci-rule-color "#383838")
- '(fringe-mode 4 nil (fringe))
- '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
- '(highlight-symbol-colors
-   (--map
-    (solarized-color-blend it "#002b36" 0.25)
-    (quote
-     ("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2"))))
- '(highlight-symbol-foreground-color "#93a1a1")
- '(highlight-tail-colors
-   (quote
-    (("#073642" . 0)
-     ("#546E00" . 20)
-     ("#00736F" . 30)
-     ("#00629D" . 50)
-     ("#7B6000" . 60)
-     ("#8B2C02" . 70)
-     ("#93115C" . 85)
-     ("#073642" . 100))))
- '(hl-bg-colors
-   (quote
-    ("#7B6000" "#8B2C02" "#990A1B" "#93115C" "#3F4D91" "#00629D" "#00736F" "#546E00")))
- '(hl-fg-colors
-   (quote
-    ("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36")))
- '(hl-sexp-background-color "#1c1f26")
- '(main-line-color1 "#1E1E1E")
- '(main-line-color2 "#111111")
- '(main-line-separator-style (quote chamfer))
- '(nrepl-message-colors
-   (quote
-    ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
- '(pos-tip-background-color "#073642")
- '(pos-tip-foreground-color "#93a1a1")
- '(recentf-max-menu-items 30)
- '(recentf-max-saved-items 30)
- '(tab-stop-list
-   (quote
-    (4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80 84 88 92 96 100 104 108 112 116 120)))
- '(term-default-bg-color "#002b36")
- '(term-default-fg-color "#839496")
- '(tool-bar-mode nil)
- '(transient-mark-mode nil)
- '(vc-annotate-background "#2B2B2B")
- '(vc-annotate-color-map
-   (quote
-    ((20 . "#BC8383")
      (40 . "#CC9393")
-     (60 . "#DFAF8F")
-     (80 . "#D0BF8F")
-     (100 . "#E0CF9F")
-     (120 . "#F0DFAF")
-     (140 . "#5F7F5F")
-     (160 . "#7F9F7F")
-     (180 . "#8FB28F")
-     (200 . "#9FC59F")
-     (220 . "#AFD8AF")
-     (240 . "#BFEBBF")
-     (260 . "#93E0E3")
-     (280 . "#6CA0A3")
-     (300 . "#7CB8BB")
-     (320 . "#8CD0D3")
-     (340 . "#94BFF3")
-     (360 . "#DC8CC3"))))
- '(vc-annotate-very-old-color "#DC8CC3")
- '(weechat-color-list
-   (quote
-    (unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83")))
- '(xterm-color-names
-   ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#eee8d5"])
- '(xterm-color-names-bright
-   ["#002b36" "#cb4b16" "#586e75" "#657b83" "#839496" "#6c71c4" "#93a1a1" "#fdf6e3"]))
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:family "Bitstream Vera Sans Mono" :foundry "outline" :slant normal :weight normal :height 98 :width normal))))
- )
-
-
+(require 'server)
+(or (server-running-p)
+     (server-start))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Start up items.
-;; Get rid of the stupid splash screen
-(setq inhibit-splash-screen t)
+(setq inhibit-splash-screen t) ;; No splash screen on startup.
+(setq initial-scratch-message "") ;; No initial scratch message.
+(tool-bar-mode -1) ;; No tool bar.
+(menu-bar-mode 1) ;; toggle menu bar.
+(scroll-bar-mode -1);; want to use scroll bars?
 
-;;Initial Frame Positions so emacs is the right size on startup
-(setq default-frame-alist
-  '(
-   (top . 05)(left . 05)
-   (width . 100)(height . 43)
-   (vertical-scroll-bars . right)
-   )
-)
+;; emacs is maximized on startup
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
-;; Remove that stupid inital scratch message
-(setq initial-scratch-message "")
+;; Set font.
+(set-face-attribute 'default nil
+		    :family "Bitstream Vera Sans Mono"
+		    :height 100
+		    :width 'normal
+		    :foundry "outline"
+		    :slant 'normal
+		    :weight 'normal)
 
-; get rid of the toolbar with graphical file save/open/etc/buttons
-(tool-bar-mode -1)
-
-;; turn off scroll bars.
-(scroll-bar-mode 1) ;; leave it on; doesn't take up much space
-
-;; more useful frame title, that show either a file or a
+;; more useful frame title, that shows either a file or a
 ;; buffer name (if the buffer isn't visiting a file)
 (setq frame-title-format
       '((:eval (if (buffer-file-name)
@@ -134,6 +33,11 @@
 
 ;;Use C-TAB to switch buffers
 (global-set-key [(control tab)] 'bury-buffer)
+
+;; Restrict things to utf-8.
+(prefer-coding-system 'utf-8)
+(when (display-graphic-p)
+  (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load other packages.
@@ -173,19 +77,14 @@
 (setq fci-rule-color "#DCDCCC")
 (global-fci-mode 1)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Turn on auto-dim-other-buffers-mode automatically.
+(add-hook 'after-init-hook (lambda ()
+  (when (fboundp 'auto-dim-other-buffers-mode)
+    (auto-dim-other-buffers-mode t))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; interactively do things.
-;(require 'ido)
-;(ido-mode t)
-;; make ido display choices vertically
-;(setq ido-separator "\n")
-;; display any item that contains the chars you typed
-;(setq ido-enable-flex-matching t)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; instead of ido mode, let's try helm.
+;; Let's try helm.
 (require 'helm-config)
 (require 'helm)
 
@@ -194,7 +93,6 @@
 ;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
 (global-set-key (kbd "C-c h") 'helm-command-prefix)
 (global-unset-key (kbd "C-x c"))
-
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
 (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
 (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
@@ -216,15 +114,16 @@
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 ;; Use helm to find files
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
-;; Resize helm buffer based on number of candidates.
+;; Do not resize helm buffer based on number of candidates.
 (helm-autoresize-mode 0)
+
+;; Map menu key to helm-M-x
+(when (string-equal system-type "windows-nt")
+  (global-set-key (kbd "<apps>") 'helm-M-x))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; auto-text-fill mode for text files.
-;;(add-hook 'text-mode-hook 'turn-on-auto-fill)
-;; Shoot; i don't want that in my weekly time sheet files.
-;; I should figure out how to do those in org-mode.
-
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set nicer colors in shells.
@@ -248,10 +147,9 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; For the calendar's sunrise/sunset option, input latitude and longitude
-;; You can get lat-long data from the NWS
+;; You can get lat-long data from the NWS. I'm usually in Pittsburgh.
 (setq calendar-latitude 40.22)
 (setq calendar-longitude -80.00)
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Org mode
@@ -274,22 +172,20 @@
 ;; I'd like to use C-Tab to switch buffers, even in org-mode.
 (add-hook 'org-mode-hook (lambda () (local-set-key [(control tab)] 'bury-buffer)))
 ;; When opening Org files, show everything.
-(setq org-startup-folded 'showeverything)
-
+;; (setq org-startup-folded 'showeverything)
+;; Nah, keep it folded.
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set up recentf so I can get a list of recent files when I start
 (require 'recentf)
 (recentf-mode 1)
-(setq recentf-max-menu-items 25)
+(setq recentf-max-menu-items 30)
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;Display settings
 ;;(setq display-time-12hr-format t)		 ; In 12 hour format
 (display-time-mode -1)		 ; Display the time
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set path to place all those foo~ backup files that emacs create.
@@ -306,7 +202,6 @@
 ;; Drive out the mouse when it's too near to the cursor.
 (mouse-avoidance-mode 'animate)
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Add Emacs close confirmation
 (setq kill-emacs-query-functions
@@ -314,14 +209,14 @@
      kill-emacs-query-functions))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Turn on font-lock mode for Emacs
+;; Turn on font-lock mode for Emacs. This turns on syntax highlighting
+;; for all major modes and turn on maximum decorations.
 (global-font-lock-mode t)
-;; This turns on syntax highlighting for all major modes
+(setq font-lock-maximum-decoration t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Visual feedback on selections
+;; I don't want visual feedback on selections
 (setq-default transient-mark-mode nil)
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Always end a file with a newline
@@ -336,24 +231,12 @@
 ;; Replace 'yes or no' queries to 'y or n'
 (fset 'yes-or-no-p 'y-or-n-p)
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Turn on syntax highlights for any mode that supports it.
-(cond ((fboundp 'global-font-lock-mode)
-       ;; Turn on font-lock in all modes that support it
-       (global-font-lock-mode t)
-       ;; Maximum colors
-       (setq font-lock-maximum-decoration t)))
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq column-number-mode t) ;;display column number
 (setq line-number-mode t)   ;display line number
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;Some other formatting junk
-(c-set-offset 'case-label '+) ;; switch indenting in C
-(dynamic-completion-mode)
 (setq visible-bell t)
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
@@ -363,14 +246,19 @@
 (add-to-list 'exec-path "C:/Program Files (x86)/Aspell/bin/")
 (setq ispell-program-name "aspell")
 ;;(setq ispell-personal-dictionary "C:/Program Files (x86)/Aspell/dict")
-(require 'ispell)
-(global-set-key (kbd "<f7>") 'ispell)
-(global-set-key (kbd "<f8>") 'ispell-word)
-(global-set-key (kbd "C-<f8>") 'flyspell-mode)
+;;(require 'ispell)
+;;(global-set-key (kbd "<f7>") 'ispell)
+;;(global-set-key (kbd "<f8>") 'ispell-word)
+
+(global-set-key (kbd "C-<f8>") 'flyspell-mode) ; toggles flyspell-mode
 ;; Turn on flyspell mode for text documents.
 (add-hook 'text-mode-hook 'flyspell-mode)
 ;; Turn on flyspell mode for program mode.
 (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+;; flyspell with helm interface.
+(require 'flyspell-correct-helm)
+(define-key flyspell-mode-map (kbd "<f7>") 'flyspell-correct-word-generic)
+(define-key flyspell-mode-map (kbd "<f8>") 'flyspell-correct-previous-word-generic)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; undo some previous changes
@@ -388,16 +276,12 @@
    (setq ps-printer-name t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;; LATEX STUFF BELOW;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; AUCTEX-11.14
+;; LaTeX stuff.
+;; AUCTEX
 (require 'tex-site)
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 (setq-default TeX-master nil)
-
-;; turn on pdf-mode. AUCTEX uses pdflatex as the default
-;; command instead of the latex command
-;;(add-hook 'LaTeX-mode-hook 'TeX-PDF-mode)
 
 ;; RefTeX
 (autoload 'reftex-mode    "reftex" "RefTeX Minor Mode" t)
@@ -437,14 +321,6 @@ python-shell-prompt-regexp "In \\[[0-9]+\\]: "
 ;; try to automagically figure out indentation
 (setq py-smart-indentation t)
 
-;; Load auto complete for Python.
-(add-to-list 'load-path "C:\emacs\.emacs.d\elpa\auto-complete-20160107.8")
-(require 'auto-complete)
-(add-to-list 'ac-dictionary-directories "C:\emacs\.emacs.d\elpa\auto-complete-20160107.8\dict")
-(require 'auto-complete-config)
-(ac-config-default)
-(global-auto-complete-mode t)
-
 ;; Replace flymake with flycheck for real time checking..
 (when (require 'flycheck nil t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
@@ -454,33 +330,45 @@ python-shell-prompt-regexp "In \\[[0-9]+\\]: "
 ;; Autoload hide show mode for code folding.
 ;; someday i'll figure this out...
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; try to improve slow performance on windows.
 (setq w32-get-true-file-attributes nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Smart mode line
-;; don't ask about confirming themes.
+(require 'smart-mode-line)
 (setq sml/no-confirm-load-theme t)
 (setq sml/theme 'respectful)
+
+(add-to-list 'sml/replacer-regexp-list  '("h:/time/" ":T:") t)
+(add-to-list 'sml/replacer-regexp-list  '("h:/Documents/Survey/" ":S:") t)
 (setq sml/mode-width 0)
-(setq sml/name-width 20)
-;;(rich-minority-mode 1) ;; turn off minor mode
-;;(setf rm-blacklist "") ;; turn off minor mode
+(setq sml/name-width 15)
+(setq sml/shorten-directory t)
+(setq sml/shorten-modes t)
 (sml/setup)
+;; Turn off minor modes.
+(require 'rich-minority)
+(rich-minority-mode 1)
+(setf rm-blacklist "")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Load theme.
-;(load-theme 'zenburn t)
+;; nyan-mode!!!!!!!!!!!!!!!!!!!!!!!!!
+(require 'nyan-mode)
+;;(nyan-toggle-wavy-trail)
+;;(nyan-start-animation)
+(nyan-mode t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Set all themes as safe.
+(setq custom-safe-themes t)
+;; Load theme here.
+;;(load-theme 'zenburn t)
 (load-theme 'labburn t)
-;;(load-theme 'soothe t)
-;;(load-theme 'material t)
-;;(load-theme 'solarized-dark t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;I'd like to highlight the line where the cursor is
-(global-hl-line-mode 1)
+(global-hl-line-mode t)
 ;; To customize the background color
 ;; use M-x list-colors-display to see a list of colors.
 ;;(set-face-background 'hl-line "#3e4446")
@@ -522,6 +410,9 @@ python-shell-prompt-regexp "In \\[[0-9]+\\]: "
 ;; save/restore opened files and windows config
 (desktop-save-mode 1) ; 0 for off
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; turn on company mode.
+(add-hook 'after-init-hook 'global-company-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; simplify switching between buffers with windmove
@@ -533,12 +424,6 @@ python-shell-prompt-regexp "In \\[[0-9]+\\]: "
 (add-hook 'org-shiftleft-final-hook 'windmove-left)
 (add-hook 'org-shiftdown-final-hook 'windmove-down)
 (add-hook 'org-shiftright-final-hook 'windmove-right)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Map menu key to helm-M-x
-(when (string-equal system-type "windows-nt")
-  (global-set-key (kbd "<apps>") 'helm-M-x))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Things to make delimiters a little easier to use.
@@ -561,3 +446,71 @@ python-shell-prompt-regexp "In \\[[0-9]+\\]: "
 (set-face-background 'show-paren-match (face-background 'default))
 (set-face-foreground 'show-paren-match "yellow")
 (set-face-attribute 'show-paren-match nil :weight 'extra-bold)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; A function to rename current file and buffer.
+;; source: http://steve.yegge.googlepages.com/my-dot-emacs-file
+(defun rename-file-and-buffer (new-name)
+  "Renames both current buffer and file it's visiting to new-name."
+  (interactive "sNew name: ")
+  (let ((name (buffer-name))
+        (filename (buffer-file-name)))
+    (if (not filename)
+        (message "Buffer '%s' is not visiting a file!" name)
+      (if (get-buffer new-name)
+          (message "A buffer named '%s' already exists!" new-name)
+        (progn
+          (rename-file filename new-name 1)
+          (rename-buffer new-name)
+          (set-visited-file-name new-name)
+          (set-buffer-modified-p nil))))))
+;; Bind that function to C-c r.
+(global-set-key (kbd "C-c r") 'rename-file-and-buffer)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; anzu to count search results
+(global-anzu-mode 1)
+(anzu-mode 1)
+(set-face-attribute 'anzu-mode-line nil
+		    :foreground "yellow" :weight 'bold)
+(global-set-key [remap query-replace] 'anzu-query-replace)
+(global-set-key [remap query-replace-regexp] 'anzu-query-replace-regexp)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; move to beginning of line in a clever way.
+(defadvice move-beginning-of-line (around smarter-bol activate)
+  ;; Move to requested line if needed.
+  (let ((arg (or (ad-get-arg 0) 1)))
+    (when (/= arg 1)
+      (forward-line (1- arg))))
+  ;; Move to indentation on first call, then to actual BOL on second.
+  (let ((pos (point)))
+    (back-to-indentation)
+    (when (= pos (point))
+      ad-do-it)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Avoid weasel words with artbollocks-mode.
+(require 'artbollocks-mode)
+(setq artbollocks-weasel-words-regex
+          (concat "\\b" (regexp-opt
+                         '("one of the"
+                           "should"
+                           "just"
+                           "sort of"
+                           "a lot"
+                           "probably"
+                           "maybe"
+                           "perhaps"
+                           "I think"
+                           "really"
+                           "pretty"
+                           "nice"
+                           "action"
+                           "utilize"
+                           "leverage") t) "\\b"))
+;; Don't show the art critic words, or at least until I figure
+;; out my own jargon
+(setq artbollocks-jargon nil)
+(autoload 'artbollocks-mode "artbollocks-mode")
+(add-hook 'text-hook 'artbollocks-mode)
