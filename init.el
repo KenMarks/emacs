@@ -1,5 +1,4 @@
-     (40 . "#CC9393")
-
+;; Start server so we can use "Edit with Emacs from context menu."
 (require 'server)
 (or (server-running-p)
      (server-start))
@@ -386,8 +385,19 @@ python-shell-prompt-regexp "In \\[[0-9]+\\]: "
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Ace jump mode.
-(require 'ace-jump-mode)
-(define-key global-map (kbd "C-c j") 'ace-jump-mode)
+;;(require 'ace-jump-mode)
+;;(define-key global-map (kbd "C-c j") 'ace-jump-mode)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Try avy instead of ace jump mode.
+(require 'avy)
+(global-set-key (kbd "C-c j") 'avy-goto-word-or-subword-1)
+;; tweak the prefix values.
+(setq avy-keys
+      (nconc (number-sequence ?a ?z)
+	     (number-sequence ?A ?Z)
+	     (number-sequence ?1 ?9)
+	     '(?0)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set up buffer-move to easily swap buffers.
