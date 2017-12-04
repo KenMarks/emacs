@@ -1,4 +1,4 @@
-;; Start server so we can use "Edit with Emacs from context menu."
+;;; Start server so we can use "Edit with Emacs from context menu."
 (require 'server)
 (or (server-running-p)
      (server-start))
@@ -10,12 +10,14 @@
 (tool-bar-mode -1) ;; No tool bar.
 (menu-bar-mode 1) ;; toggle menu bar.
 (scroll-bar-mode -1);; want to use scroll bars?
+(display-time-mode 1) ;; show time
 
 ;; emacs is maximized on startup
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;; Set font.
 (set-face-attribute 'default nil
+		    ;;:family "DejaVu Sans Mono"
 		    :family "Bitstream Vera Sans Mono"
 		    :height 100
 		    :width 'normal
@@ -72,6 +74,7 @@
  global-fci-mode fci-mode (lambda ()
 			    (setq fci-rule-color "#DCDCCC")
 			    (fci-mode 1)))
+(setq fci-rule-column 70)
 (setq fci-rule-width 1)
 (setq fci-rule-color "#DCDCCC")
 (global-fci-mode 1)
@@ -119,10 +122,13 @@
 ;; Map menu key to helm-M-x
 (when (string-equal system-type "windows-nt")
   (global-set-key (kbd "<apps>") 'helm-M-x))
+;; For laptop typing, let's bind helm-M-x to F9
+(global-set-key (kbd "<f9>") 'helm-M-x)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; auto-text-fill mode for text files.
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
+(setq-default fill-column 70)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set nicer colors in shells.
@@ -157,23 +163,35 @@
 (defun my-org-mode-hook()
   (progn
     (turn-on-flyspell)
-    (auto-fill-mode 1)))
+    ;; turn off this auto-fill-mode. i don't want it on my time sheet.
+    ;;(auto-fill-mode 1)
+    ))
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+;; Open all text files in org mode. That way I can share notes in txt
+;; files with folks who don't use org mode
+(add-to-list 'auto-mode-alist '("\\.txt$" . org-mode))
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (global-set-key "\C-cc" 'org-capture)
 (global-set-key "\C-cb" 'org-iswitchb)
 (setq org-log-done t)
 (setq org-support-shift-select nil)
-;; Open all text files in org mode. That way I can share notes in txt
-;; files with folks who don't use org mode
-(add-to-list 'auto-mode-alist '("\\.txt$" . org-mode))
 ;; I'd like to use C-Tab to switch buffers, even in org-mode.
 (add-hook 'org-mode-hook (lambda () (local-set-key [(control tab)] 'bury-buffer)))
 ;; When opening Org files, show everything.
 ;; (setq org-startup-folded 'showeverything)
 ;; Nah, keep it folded.
 
+;; Want emphasis to extend over multiple lines.
+;; from https://emacs.stackexchange.com/questions/13820/inline-verbatim-and-code-with-quotes-in-org-mode
+(setcar (nthcdr 2 org-emphasis-regexp-components) " \t\r\n,\"")
+(org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
+
+;; pandoc mode.
+(add-hook 'markdown-mode-hook 'pandoc-mode)
+;; Open all text files in org mode. That way I can share notes in txt
+;; files with folks who don't use org mode or pandoc.
+(add-to-list 'auto-mode-alist '("\\.txt$" . pandoc-mode))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set up recentf so I can get a list of recent files when I start
 (require 'recentf)
@@ -296,7 +314,7 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Python stuff.
+;j; Python stuff.
 ;; We can get Python to work under windows
 ;; use IPython
 (setq
@@ -325,12 +343,19 @@ python-shell-prompt-regexp "In \\[[0-9]+\\]: "
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (add-hook 'elpy-mode-hook 'flycheck-mode))
 
+;; Setup jedi mode.
+;;(add-hook 'python-mode-hook 'jedi:setup)
+;;(setq jedi:complete-on-dot t)                 ; optional
+;; Jedi not working nicely.
+;; Try anaconda mode.
+(add-hook 'python-mode-hook 'anaconda-mode)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Autoload hide show mode for code folding.
 ;; someday i'll figure this out...
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; try to improve slow performance on windows.
+					; try to improve slow performance on windows.
 (setq w32-get-true-file-attributes nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -338,6 +363,9 @@ python-shell-prompt-regexp "In \\[[0-9]+\\]: "
 (require 'smart-mode-line)
 (setq sml/no-confirm-load-theme t)
 (setq sml/theme 'respectful)
+;;(setq powerline-arrow-shape 'curve)
+;;(setq powerline-default-separator-dir '(right . left))
+;;(setq sml/theme 'powerline)
 
 (add-to-list 'sml/replacer-regexp-list  '("h:/time/" ":T:") t)
 (add-to-list 'sml/replacer-regexp-list  '("h:/Documents/Survey/" ":S:") t)
@@ -352,6 +380,11 @@ python-shell-prompt-regexp "In \\[[0-9]+\\]: "
 (setf rm-blacklist "")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; powerline
+;;(require 'powerline)
+;;(powerline-default-theme)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; nyan-mode!!!!!!!!!!!!!!!!!!!!!!!!!
 (require 'nyan-mode)
 ;;(nyan-toggle-wavy-trail)
@@ -362,8 +395,14 @@ python-shell-prompt-regexp "In \\[[0-9]+\\]: "
 ;; Set all themes as safe.
 (setq custom-safe-themes t)
 ;; Load theme here.
-;;(load-theme 'zenburn t)
-(load-theme 'labburn t)
+(load-theme 'zenburn t)
+(setq sml/theme nil)
+(set-face-attribute 'sml/modified nil
+		    :foreground "Red"
+		    :weight 'bold)
+;;(load-theme 'labburn t)
+;;(setq spacemacs-theme-org-height nil)
+;(load-theme 'spacemacs-dark t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;I'd like to highlight the line where the cursor is
@@ -482,23 +521,52 @@ python-shell-prompt-regexp "In \\[[0-9]+\\]: "
 (global-anzu-mode 1)
 (anzu-mode 1)
 (set-face-attribute 'anzu-mode-line nil
-		    :foreground "yellow" :weight 'bold)
+		    :foreground "yellow"
+		    :weight 'bold)
 (global-set-key [remap query-replace] 'anzu-query-replace)
 (global-set-key [remap query-replace-regexp] 'anzu-query-replace-regexp)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; move to beginning of line in a clever way.
-(defadvice move-beginning-of-line (around smarter-bol activate)
-  ;; Move to requested line if needed.
-  (let ((arg (or (ad-get-arg 0) 1)))
-    (when (/= arg 1)
-      (forward-line (1- arg))))
-  ;; Move to indentation on first call, then to actual BOL on second.
-  (let ((pos (point)))
-    (back-to-indentation)
-    (when (= pos (point))
-      ad-do-it)))
+;; (defadvice move-beginning-of-line (around smarter-bol activate)
+;;   ;; Move to requested line if needed.
+;;   (let ((arg (or (ad-get-arg 0) 1)))
+;;     (when (/= arg 1)
+;;       (forward-line (1- arg))))
+;;   ;; Move to indentation on first call, then to actual BOL on second.
+;;   (let ((pos (point)))
+;;     (back-to-indentation)
+;;     (when (= pos (point))
+;;       ad-do-it)))
+;; That doesn't work in my org files. Let's try crux.
+;; Here's Bozhidar Batsov's method.
+(defun smarter-move-beginning-of-line (arg)
+  "Move point back to indentation of beginning of line.
 
+Move point to the first non-whitespace character on this line.
+If point is already there, move to the beginning of the line.
+Effectively toggle between the first non-whitespace character and
+the beginning of the line.
+
+If ARG is not nil or 1, move forward ARG - 1 lines first.  If
+point reaches the beginning or end of the buffer, stop there."
+  (interactive "^p")
+  (setq arg (or arg 1))
+
+  ;; Move lines first
+  (when (/= arg 1)
+    (let ((line-move-visual nil))
+      (forward-line (1- arg))))
+
+  (let ((orig-point (point)))
+    (back-to-indentation)
+    (when (= orig-point (point))
+      (move-beginning-of-line 1))))
+
+;; remap C-a to `smarter-move-beginning-of-line'
+(global-set-key [remap move-beginning-of-line]
+                'smarter-move-beginning-of-line)
+;; dang it. that doesn't work in  org mode either.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Avoid weasel words with artbollocks-mode.
 (require 'artbollocks-mode)
@@ -519,8 +587,74 @@ python-shell-prompt-regexp "In \\[[0-9]+\\]: "
                            "action"
                            "utilize"
                            "leverage") t) "\\b"))
-;; Don't show the art critic words, or at least until I figure
-;; out my own jargon
-(setq artbollocks-jargon nil)
+(setq artbollocks-jargon nil) ; skip jargon.
+(setq artbollocks-lexical-illusions nil) ; skip repeated words.
+;; adjust face of highlighted text.
+(set-face-attribute 'artbollocks-passive-voice-face nil
+		    :background "Black")
+(set-face-attribute 'artbollocks-weasel-words-face nil
+		    :background "Black")
+(set-face-attribute 'artbollocks-face nil
+		    :background "Black")
 (autoload 'artbollocks-mode "artbollocks-mode")
 (add-hook 'text-hook 'artbollocks-mode)
+(add-hook 'org-mode-hook 'artbollocks-mode)
+(add-hook 'org-capture-mode-hook 'artbollocks-mode)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; smooth scrolling feels good.
+(require 'smooth-scrolling)
+(smooth-scrolling-mode 1)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Unfill paragraph from https://www.emacswiki.org/emacs/UnfillParagraph
+;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
+(defun unfill-paragraph (&optional region)
+  "Takes a multi-line paragraph and makes it into a single line of text."
+  (interactive (progn (barf-if-buffer-read-only) '(t)))
+  (let ((fill-column (point-max))
+	;; This would override `fill-column' if it's an integer.
+	(emacs-lisp-docstring-fill-column t))
+    (fill-paragraph nil region)))
+; Handy key definition
+(define-key global-map "\M-Q" 'unfill-paragraph)
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; keyboard macro to turn list like a;b;c into
+;; 1. a
+;; 2. b
+;; 3. c
+;; dangerous: will replace any semicolon separated lists
+;; after the cursor. Want to limit to replace semicolons on the
+;; current line.
+(fset 'semicolon_to_numbered_list
+   [?1 ?. ?  ?\M-% ?\; return ?\C-q ?\C-j ?1 ?. ?  return ?! backspace backspace backspace backspace ?\C-c ?\C-c])
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;(use-package aggressive-indent
+;;	     :ensure t
+;;	     :config
+;;	     (global-aggressive-indent-mode +1))
+(global-aggressive-indent-mode 1)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(paradox-github-token t)
+ '(safe-local-variable-values
+   (quote
+    ((eval when
+	   (require
+	    (quote rainbow-mode)
+	    nil t)
+	   (rainbow-mode 1))))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
