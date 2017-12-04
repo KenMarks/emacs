@@ -44,13 +44,13 @@
 ;; Load other packages.
 (require 'package)
 (package-initialize)
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("melpa" . "http://melpa.org/packages/")
-			 ("elpy" . "http://jorgenschaefer.github.io/packages/")
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")
+			 ("elpy" . "https://jorgenschaefer.github.io/packages/")
 			 )
       )
 (add-to-list 'package-archives
-	     '("elpy" . "http://jorgenschaefer.github.io/packages/")
+	     '("elpy" . "https://jorgenschaefer.github.io/packages/")
 	     )
 
 (defvar myPackages
@@ -66,7 +66,6 @@
 (require 'py-autopep8)
 (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Fill column indicator
 (require 'fill-column-indicator)
@@ -74,7 +73,7 @@
  global-fci-mode fci-mode (lambda ()
 			    (setq fci-rule-color "#DCDCCC")
 			    (fci-mode 1)))
-(setq fci-rule-column 70)
+(setq fci-rule-column 80)
 (setq fci-rule-width 1)
 (setq fci-rule-color "#DCDCCC")
 (global-fci-mode 1)
@@ -122,8 +121,7 @@
 ;; Map menu key to helm-M-x
 (when (string-equal system-type "windows-nt")
   (global-set-key (kbd "<apps>") 'helm-M-x))
-;; For laptop typing, let's bind helm-M-x to F9
-(global-set-key (kbd "<f9>") 'helm-M-x)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; auto-text-fill mode for text files.
@@ -187,11 +185,18 @@
 (setcar (nthcdr 2 org-emphasis-regexp-components) " \t\r\n,\"")
 (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
 
-;; pandoc mode.
-(add-hook 'markdown-mode-hook 'pandoc-mode)
+;; pandoc mode -- err, this isn't working as expected right now.
+;;(add-hook 'markdown-mode-hook 'pandoc-mode)
 ;; Open all text files in org mode. That way I can share notes in txt
 ;; files with folks who don't use org mode or pandoc.
-(add-to-list 'auto-mode-alist '("\\.txt$" . pandoc-mode))
+;;(add-to-list 'auto-mode-alist '("\\.txt$" . pandoc-mode))
+
+;; org-bullets
+(require 'org-bullets)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+					;(eval-after-load 'org-bullets
+					;  'setq org-bullets-bullet-list ("◉" "◎" "⚫" "○" "►" "◇"))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set up recentf so I can get a list of recent files when I start
 (require 'recentf)
@@ -249,8 +254,8 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq column-number-mode t) ;;display column number
-(setq line-number-mode t)   ;display line number
+(setq column-number-mode t) ;; display column number in mode bar
+(setq line-number-mode t)   ;; display line number in mode bar
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;Some other formatting junk
@@ -259,7 +264,7 @@
 (put 'downcase-region 'disabled nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;hopefully this makes aspell work as a spellchecker
+;;hopefully this makes aspell work as a spell checker
 (add-to-list 'exec-path "C:/Program Files (x86)/Aspell/bin/")
 (setq ispell-program-name "aspell")
 ;;(setq ispell-personal-dictionary "C:/Program Files (x86)/Aspell/dict")
@@ -276,21 +281,33 @@
 (require 'flyspell-correct-helm)
 (define-key flyspell-mode-map (kbd "<f7>") 'flyspell-correct-word-generic)
 (define-key flyspell-mode-map (kbd "<f8>") 'flyspell-correct-previous-word-generic)
-
+;; Note: personal dictionary entries saved at C:\emacs\en.pws
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; undo some previous changes
+;; undo/redo settings
 (require 'undo-tree)
 (global-undo-tree-mode 1)
-(global-set-key (kbd "<f11>") 'undo)
+(global-set-key (kbd "<f9>") 'undo)
 (defalias 'redo 'undo-tree-redo)
-(global-set-key (kbd "<f12>") 'redo)
+(global-set-key (kbd "<f10>") 'redo)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; I'd like to print emacs bufferes to ghostscript
-(setenv "GS_LIB" "C:/Program Files/gs/g9.14/lib;C:/Program Files/gs/g9.14/fonts")
-   (setq ps-lpr-command "C:/Program Files/gs/gs9.14/bin/gswin64c.exe")
-   (setq ps-lpr-switches '("-q" "-dNOPAUSE" "-dBATCH" "-sDEVICE=mswinpr2"))
-   (setq ps-printer-name t)
+;; yafolding
+(defvar yafolding-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "<C-S-return>") #'yafolding-hide-parent-element)
+    (define-key map (kbd "<C-M-return>") #'yafolding-toggle-all)
+    (define-key map (kbd "<C-return>") #'yafolding-toggle-element)
+
+    map))
+(add-hook 'prog-mode-hook
+          (lambda () (yafolding-mode)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; I'd like to print emacs buffers to ghostscript
+(setenv "GS_LIB" "C:/Program Files/gs/g9.21/lib;C:/Program Files/gs/g9.21/fonts")
+(setq ps-lpr-command "C:/Program Files/gs/gs9.21/bin/gswin64c.exe")
+(setq ps-lpr-switches '("-q" "-dNOPAUSE" "-dBATCH" "-sDEVICE=mswinpr2"))
+(setq ps-printer-name t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; LaTeX stuff.
@@ -299,6 +316,15 @@
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 (setq-default TeX-master nil)
+
+;; ACUTeX replaces latex-mode-hook with LaTeX-mode-hook
+(add-hook 'LaTeX-mode-hook
+	  (lambda ()
+	    (setq TeX-auto-save t)
+	    (setq TeX-parse-self t)
+	    ;; (setq-default TeX-master nil)
+	    (reftex-mode t)
+	    (TeX-fold-mode t)))
 
 ;; RefTeX
 (autoload 'reftex-mode    "reftex" "RefTeX Minor Mode" t)
@@ -312,24 +338,21 @@
 
 (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode t)
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;j; Python stuff.
-;; We can get Python to work under windows
+;; Python stuff.
 ;; use IPython
 (setq
  python-shell-interpreter "C:\\Python27\\python.exe"
  python-shell-interpreter-args
  "-i C:\\Python27\\Scripts\\ipython.exe"
-python-shell-prompt-regexp "In \\[[0-9]+\\]: "
+ python-shell-prompt-regexp "In \\[[0-9]+\\]: "
  python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
  python-shell-completion-setup-code
-   "from IPython.core.completerlib import module_completion"
+ "from IPython.core.completerlib import module_completion"
  python-shell-completion-module-string-code
-   "';'.join(module_completion('''%s'''))\n"
+ "';'.join(module_completion('''%s'''))\n"
  python-shell-completion-string-code
-   "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
-
+ "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
 ;; switch to the interpreter after executing code
 (setq py-shell-switch-buffers-on-execute-p nil)
 (setq py-switch-buffers-on-execute-p nil)
@@ -337,6 +360,14 @@ python-shell-prompt-regexp "In \\[[0-9]+\\]: "
 (setq py-split-windows-on-execute-p nil)
 ;; try to automagically figure out indentation
 (setq py-smart-indentation t)
+;; key bindings for python-mode.
+;;(define-key python-mode-map (kbd "C-|") 'python-shell-send-region) ;; doesn't work!
+;;(defun my-python-keybindings ()
+;; python-mode key bindings.
+;;(local-set-key (kbd "C-|" 'python-shell-send-region))
+;;)
+;;(add-hook 'python-mode-hook 'my-python-keybindings)
+
 
 ;; Replace flymake with flycheck for real time checking..
 (when (require 'flycheck nil t)
@@ -351,11 +382,7 @@ python-shell-prompt-regexp "In \\[[0-9]+\\]: "
 (add-hook 'python-mode-hook 'anaconda-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Autoload hide show mode for code folding.
-;; someday i'll figure this out...
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-					; try to improve slow performance on windows.
+;; try to improve slow performance on windows.
 (setq w32-get-true-file-attributes nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -366,7 +393,6 @@ python-shell-prompt-regexp "In \\[[0-9]+\\]: "
 ;;(setq powerline-arrow-shape 'curve)
 ;;(setq powerline-default-separator-dir '(right . left))
 ;;(setq sml/theme 'powerline)
-
 (add-to-list 'sml/replacer-regexp-list  '("h:/time/" ":T:") t)
 (add-to-list 'sml/replacer-regexp-list  '("h:/Documents/Survey/" ":S:") t)
 (setq sml/mode-width 0)
@@ -378,11 +404,6 @@ python-shell-prompt-regexp "In \\[[0-9]+\\]: "
 (require 'rich-minority)
 (rich-minority-mode 1)
 (setf rm-blacklist "")
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; powerline
-;;(require 'powerline)
-;;(powerline-default-theme)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; nyan-mode!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -421,11 +442,6 @@ python-shell-prompt-regexp "In \\[[0-9]+\\]: "
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Ace jump mode.
-;;(require 'ace-jump-mode)
-;;(define-key global-map (kbd "C-c j") 'ace-jump-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Try avy instead of ace jump mode.
@@ -528,17 +544,6 @@ python-shell-prompt-regexp "In \\[[0-9]+\\]: "
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; move to beginning of line in a clever way.
-;; (defadvice move-beginning-of-line (around smarter-bol activate)
-;;   ;; Move to requested line if needed.
-;;   (let ((arg (or (ad-get-arg 0) 1)))
-;;     (when (/= arg 1)
-;;       (forward-line (1- arg))))
-;;   ;; Move to indentation on first call, then to actual BOL on second.
-;;   (let ((pos (point)))
-;;     (back-to-indentation)
-;;     (when (= pos (point))
-;;       ad-do-it)))
-;; That doesn't work in my org files. Let's try crux.
 ;; Here's Bozhidar Batsov's method.
 (defun smarter-move-beginning-of-line (arg)
   "Move point back to indentation of beginning of line.
@@ -610,7 +615,7 @@ point reaches the beginning or end of the buffer, stop there."
 ;; Unfill paragraph from https://www.emacswiki.org/emacs/UnfillParagraph
 ;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
 (defun unfill-paragraph (&optional region)
-  "Takes a multi-line paragraph and makes it into a single line of text."
+  "Takes a multi-line paragraph and makes it intoa g single line of text."
   (interactive (progn (barf-if-buffer-read-only) '(t)))
   (let ((fill-column (point-max))
 	;; This would override `fill-column' if it's an integer.
@@ -638,6 +643,24 @@ point reaches the beginning or end of the buffer, stop there."
 ;;	     :config
 ;;	     (global-aggressive-indent-mode +1))
 (global-aggressive-indent-mode 1)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; from https://www.emacswiki.org/emacs/TransposeWindows
+(defun transpose-windows ()
+  "Transpose two windows.  If more or less than two windows are visible, error."
+  (interactive)
+  (unless (= 2 (count-windows))
+    (error "There are not 2 windows."))
+  (let* ((windows (window-list))
+	 (w1 (car windows))
+	 (w2 (nth 1 windows))
+	 (w1b (window-buffer w1))
+	 (w2b (window-buffer w2)))
+    (set-window-buffer w1 w2b)
+    (set-window-buffer w2 w1b)))
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
